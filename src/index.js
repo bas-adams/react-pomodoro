@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
+
+import Clock from './components/Clock';
 // import './index.css';
 // import App from './App';
 // import * as serviceWorker from './serviceWorker';
@@ -12,10 +14,6 @@ import uuid from 'uuid';
 // // Learn more about service workers: https://bit.ly/CRA-PWA
 // serviceWorker.unregister();
 
-
-function Clock({ className = "", minutes = 20, seconds = 48 }) {
-    return <h2 className={"Clock " + className}>Pozostało {minutes}:{seconds}</h2>
-}
 
 function ProgressBar({ className = "", percent = 33 }) {
     return (
