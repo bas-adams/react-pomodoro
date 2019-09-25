@@ -1,0 +1,20 @@
+
+.TimeboxEditor {
+    text-align: right;
+    border: $default-border;
+    border-radius: $border-radius;
+    padding: 20px;
+    margin-bottom: 10px;
+    background-color: darken(aquamarine, 50);
+}
+
+input {
+    min-width: 60%;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+button{
+    font-size: 16px;
+    margin-left: 10px;
+}
