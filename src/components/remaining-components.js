@@ -2,14 +2,7 @@ import React from 'react';
 import uuid from 'uuid';
 import Clock from './Clock';
 import Timebox from './Timebox';
-
-function ProgressBar({ className = "", percent = 33 }) {
-    return (
-        <div className={"ProgressBar " + className}>
-            <div style={{width: `${percent}%`}}></div>
-        </div>
-    );
-}
+import ProgressBar from './ProgressBar';
 
 function TimeboxEditor(props) {
     const { 
@@ -259,6 +252,5 @@ class TimeboxList extends React.Component {
         )
     }
 }
-
 
 export { EditableTimebox, TimeboxList }
