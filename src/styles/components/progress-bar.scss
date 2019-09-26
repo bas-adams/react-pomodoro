@@ -14,10 +14,21 @@
         height: 50px;
     }
 
-    &--color-red {
-        border-color: orangered 
+    &--color {
+        &-red {
+            border-color: orangered 
+        }
+
+        &-green {
+            border-color: green;
+        }
     }
+
     &--color-red &__bar {
         background-color: orangered;
+    }
+    
+    &--color-green &__bar {
+        background-color: green;
     }
 }
