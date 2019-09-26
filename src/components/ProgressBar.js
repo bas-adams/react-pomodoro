@@ -1,13 +1,17 @@
 import React from 'react';
+import classnames from 'classnames'; 
 
 function ProgressBar({ className = "", percent = 33, big = false, color = null }) {
-    let progressClassName = "progress" + className;
-    if (big) {
-        progressClassName += ' progress--big';
-    }
-    if (color === "red") {
-        progressClassName += ' progress--color-red';
-    }
+    
+    let progressClassName = classnames(
+        "progress",
+        className,
+        {
+            "progress--big": big,
+            "progress--color-red": color === "red"
+        }
+    );
+    
     return (
         <div className={progressClassName}>
             <div className={"progress__bar"} style={{width: `${percent}%`}}></div>
