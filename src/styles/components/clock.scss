@@ -1,3 +1,15 @@
-.Clock {
+.clock {
     color: orangered;
+
+    &--separator {
+        color: green;
+    }
+
+    &--minutes {
+        color: navy;
+    }
+
+    &--seconds {
+        color: magenta;
+    }
 }
