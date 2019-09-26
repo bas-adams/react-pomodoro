@@ -1,12 +1,23 @@
-.ProgressBar {
-    border: 1px solid orangered;
+.progress {
+    border: 1px solid black;
     border-radius: $border-radius;
     height: 25px;
     margin-bottom: 20px;
     padding: 5px;
 
-    > div {
+    &__bar {
         height: 100%;
+        background-color: black;
+    }
+
+    &--big {
+        height: 50px;
+    }
+
+    &--color-red {
+        border-color: orangered 
+    }
+    &--color-red &__bar {
         background-color: orangered;
     }
 }
