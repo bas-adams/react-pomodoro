@@ -5,6 +5,6 @@ import ReactDOM from 'react-dom';
 import App  from './components/App';
 
 // taki sposób importu jest mozliwy dzięki webpack
-import './styles/main.css';
+import './styles/main.scss';
 
 ReactDOM.render(<App />, document.getElementById("root"));
