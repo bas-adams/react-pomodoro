@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 
 import TimeboxEditor from './TimeboxEditor';
 import CurrentTimeBox from './CurrentTimeBox';
-
+import TimeboxListEditor from './TimeboxListEditor';
 
 /* komponent klasowy  zamiast dodawać pusty element div można użyć React.Fragment albo jego skrótową wersje <> */
 class EdiatbelTimebox extends React.Component {
@@ -130,37 +130,6 @@ class TimeboxCreator extends React.Component {
         );
     }
 };
-
-
-function TimeboxListEditor (props) {
-    const {
-        title,
-        totalTimeInMinutes,
-        onTitleChange,
-        onConfirm
-    } = props;
-
-    return (
-        <div className='TimeboxListEditor'>
-        <label>Co robisz?
-            <input
-                defaultValue={title}
-                type="text"
-                onChange={onTitleChange}
-            />
-        </label><br />
-        <label>Ile minut?
-            <input
-                defaultValue={totalTimeInMinutes}
-                type="numbe"
-            />
-        </label><br />
-        <button  onClick={onConfirm}>
-            Zatwierdź zmiany
-        </button>
-    </div>
-    )
-}
 
 class TimeboxList extends React.Component {
     state = {
