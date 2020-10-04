@@ -1,0 +1,17 @@
+
+.ProgressBar {
+    border: 1px solid orangered;
+    border-radius: $border-radius;
+    height: 25px;
+    margin-bottom: 20px;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-start;
+
+    ::after {
+        content: '';
+        height: 100%;
+        background-color: orangered;
+        width: var(--progress);
+    }
+}
