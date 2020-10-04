@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { v4 as uuid } from 'uuid';
 
+// podanie ścieżki relatywnej do pliku
+import Clock from './components/Clock';
+
 /* komponent funkcyjny */
 function TimeboxEditor(props) {
     const { 
@@ -46,7 +49,7 @@ function TimeboxEditor(props) {
 
 class CurrentTimeBox extends React.Component {
     constructor(props){
-        super(props);
+        super();
         this.state = {
             isRuning: false,
             isPaused: false,
@@ -107,7 +110,7 @@ class CurrentTimeBox extends React.Component {
                 return({
                     isPaused,
                     pausesCount: isPaused ? prevState.pausesCount + 1 : prevState.pausesCount
-                });     
+                });
             }
         );
     }
@@ -134,11 +137,6 @@ class CurrentTimeBox extends React.Component {
             </div>
         );
     };
-}
-
-/* komponent fukncyjny */
-function Clock({className, minutes, second }) {
-    return <h2 className={"Clock " + className}>Pozostało {minutes}:{second}</h2>;
 }
 
 function ProgressBar({className, percent = 40}){
@@ -195,26 +193,112 @@ class EdiatbelTimebox extends React.Component {
     }
 }
 
-function TimeboxCreator({ onCreate }) {
-    return(
-        /* w input zamiast value to defaultValue */
-        <div className="TimeboxCreator">
-            <label>Co robisz? 
-                <input 
-                    type="text" 
-                />
-            </label><br />
-            <label>Ile minut? 
-                <input 
-                    type="numbe" 
-                />
-            </label><br />
-            <button 
-                onClick={onCreate}
-            >Dodaj timebox</button>
-        </div>
-    );
+class TimeboxCreator extends React.Component {
+
+    constructor(props){
+        super();
+        //specjalne obiekty które pozowlą nam przechowywać referencje do pól formularza
+        //tworzymy je za pomocą funkcji z API reacta o nazwie createRef
+        //jedna będzie trzymała pole tytułu a druga całkowity czas w minutach
+
+        this.titleInput = React.createRef();
+        this.totalTimeInMinutesInput = React.createRef();
+    }
+
+
+    // state = {
+    //     title: '',
+    //     totalTimeInMinutes: ''
+    // }
+
+    // handleTitleChange = (event) => {
+    //     this.setState({
+    //         title: event.target.value
+    //     });
+    // }
+
+    // handleTotalTimeInMinutesChange = ( event ) => {
+    //     this.setState({
+    //         totalTimeInMinutes: event.target.value
+    //     })
+    // }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.onCreate({
+            id: uuid,
+            //title: this.state.title,
+            //totalTimeInMinutes: this.state.totalTimeInMinutes
+            title: this.titleInput.current.value,
+            totalTimeInMinutes: this.totalTimeInMinutesInput.current.value
+        });
+        //czyszczenie formularza jak są dane w state
+        //this.setState({title: '', totalTimeInMinutes: ''});
+        
+        //czyszczenie formularza jak są dane z ref
+        this.titleInput.current.value = '';
+        this.totalTimeInMinutesInput.current.value = '';
+    }
+
+    render() {
+        return(
+            /* w input zamiast value to defaultValue */
+            <form onSubmit = {this.handleSubmit}
+                className = "TimeboxCreator">
+
+                <label>Co robisz?
+                    <input
+                    //usuwamy kod synchronizujący wartosc ze stanem ale dodajemy specjalne property ref do którego przypisujemy naszą zmienną referncyjną.
+                       // value={this.state.title}
+                       // onChange={this.handleTitleChange}
+                       ref = { this.titleInput }
+                        type="text"
+                    />
+                </label><br />
+                <label>Ile minut?
+                    <input
+                        //value={this.state.totaltimeInMinutes}
+                        //onChange={this.handleTotalTimeInMinutesChange}
+                        ref = {this.totalTimeInMinutesInput}
+                        type="numbe"
+                    />
+                </label><br />
+                <button>Dodaj timebox</button>
+            </form>
+        );
+    }
 };
+
+
+function TimeboxListEditor (props) {
+    const {
+        title,
+        totalTimeInMinutes,
+        onTitleChange,
+        onConfirm
+    } = props;
+
+    return (
+        <div className='TimeboxListEditor'>
+        <label>Co robisz?
+            <input
+                defaultValue={title}
+                type="text"
+                onChange={onTitleChange}
+            />
+        </label><br />
+        <label>Ile minut?
+            <input
+                defaultValue={totalTimeInMinutes}
+                type="numbe"
+            />
+        </label><br />
+        <button  onClick={onConfirm}>
+            Zatwierdź zmiany
+        </button>
+    </div>
+    )
+}
 
 class TimeboxList extends React.Component {
     state = {
@@ -232,8 +316,8 @@ class TimeboxList extends React.Component {
         })
     }
 
-    handlerCreate = () => {
-        this.addTimebox({ id: uuid.v4(), title: 'Nowy timebox', totalTimeInMinutes: 25 });
+    handlerCreate = (createdTimebox) => {
+        this.addTimebox(createdTimebox);
     }
 
     removeTimebox = (indexToRemove) => {
@@ -252,19 +336,40 @@ class TimeboxList extends React.Component {
         });
     }
 
+    handleTitleChange = (event) => {
+        console.log(event.target.value)
+        this.setState({ title: event.target.value })
+    }
+
+    handleEdit = (indexToUpdate, updatedTimebox) => {
+        this.setState( prevState => {
+            const timeboxes = prevState.timeboxes.map( (timebox, index) => {
+                console.log(indexToUpdate, updatedTimebox)
+                return index === indexToUpdate ? updatedTimebox : timebox;
+            });
+            return { timeboxes };
+        } )
+    }
+
     render() {
         return (
             <>
-                <TimeboxCreator 
-                    onCreate={this.handlerCreate} 
+                <TimeboxCreator
+                    onCreate={this.handlerCreate}
                 />
+
+                <TimeboxListEditor
+                    title
+                    onTitleChange={this.handleTitleChange}
+                />
+
                 {this.state.timeboxes.map( (timebox, index) => (
-                    <Timebox 
-                        key={timebox.id} 
-                        title={timebox.title} 
-                        totalTimeInMinutes={timebox.totalTimeInMinutes} 
+                    <Timebox
+                        key={timebox.id}
+                        title={timebox.title}
+                        totalTimeInMinutes={timebox.totalTimeInMinutes}
                         onDelete={() => this.removeTimebox(index) }
-                        onEdit={ () => this.updateTimebox(index, {...timebox, title: "Updatd timebox"}) }
+                        //onEdit={ () => this.updateTimebox(index, {...timebox, title: "Updatd timebox"}) }
                     />
                 ))}
             </>
