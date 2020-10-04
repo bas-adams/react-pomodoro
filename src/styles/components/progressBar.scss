@@ -1,6 +1,6 @@
 
-.ProgressBar {
-    border: 1px solid orangered;
+.progress {
+    border: 1px solid black;
     border-radius: $border-radius;
     height: 25px;
     margin-bottom: 20px;
@@ -8,10 +8,18 @@
     display: flex;
     justify-content: flex-start;
 
-    ::after {
+    &::after {
         content: '';
         height: 100%;
         background-color: orangered;
-        width: var(--progress);
+        width: var(--percent);
+    }
+
+    &--big {
+        height: 50px;
+    }
+
+    &--color--red {
+        border: 1px solid orangered;
     }
 }
