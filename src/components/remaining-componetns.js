@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 
-
+import Timebox from './Timebox';
 import TimeboxEditor from './TimeboxEditor';
 import CurrentTimeBox from './CurrentTimeBox';
 import TimeboxListEditor from './TimeboxListEditor';
@@ -208,14 +208,6 @@ class TimeboxList extends React.Component {
     };
 }
 
-function Timebox({ title, totalTimeInMinutes, onDelete, onEdit }) {
-    return(
-        <div className="Timebox">
-            <h3>{title} - {totalTimeInMinutes}</h3>
-            <button onClick={onDelete}>Usuń</button>
-            <button onClick={onEdit}>Zmień</button>
-        </div>
-    );
-}
+
 
 export {TimeboxList, EdiatbelTimebox};
