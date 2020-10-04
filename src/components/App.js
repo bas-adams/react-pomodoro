@@ -1,7 +1,8 @@
 import React from 'react';
 
 // podanie ścieżki relatywnej do pliku
-import {TimeboxList, EdiatbelTimebox} from './remaining-componetns';
+import {TimeboxList} from './remaining-componetns';
+import EdiatbelTimebox from './EdiatbelTimebox';
 
 /* komponent fukncyjny */
 function App() {
